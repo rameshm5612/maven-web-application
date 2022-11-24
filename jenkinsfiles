@@ -1,0 +1,29 @@
+node{
+
+def mavenHome = tool name: 'maven3.8.5'
+echo "The job.name is: ${env.JOB_NAME}"
+echo "The Build number is: ${env.BUILD_NUMBER}"
+echo "The node name is : ${env.NODE_NAME}"
+
+//checkout Code State
+stage('checkoutcode'){
+git branch: 'development', credentialsId: 'a1582d99-9f78-40ff-bdf9-a616ccd1c6d9', url: 'https://github.com/rameshm5612/maven-web-application.git'
+
+}
+
+//Build
+stage('Build'){
+sh "${mavenHome}/bin/mvn clean package"
+}
+
+//Excute SonarQube Repoprt
+stage('ExcuteSonarQubeReport'){
+sh "${mavenHome}/bin/mvn sonar:sonar"
+}
+
+//UploadArtifacts Into Nexus
+stage('UploadArtifactsIntoNexus'){
+sh "${mavenHome}/bin/mvn deploy"
+}
+
+}//node closeing
