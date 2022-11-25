@@ -1,5 +1,5 @@
 node{
-
+try{
 def mavenHome = tool name: 'maven3.8.5'
 echo "The job.name is: ${env.JOB_NAME}"
 echo "The Build number is: ${env.BUILD_NUMBER}"
@@ -28,5 +28,11 @@ sh "${mavenHome}/bin/mvn sonar:sonar"
 stage('UploadArtifactsIntoNexus'){
 sh "${mavenHome}/bin/mvn deploy"
 }
-
+}//try closeing
+catch(e){
+currentBuild.result = "FAILURE"
+}
+finally{
+sendSlackNotifications(currentBuild.result)
+}
 }//node closeing
