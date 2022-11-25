@@ -1,12 +1,13 @@
 node{
+
 try{
-def mavenHome = tool name: 'maven3.8.5'
-echo "The job.name is: ${env.JOB_NAME}"
-echo "The Build number is: ${env.BUILD_NUMBER}"
-echo "The node name is : ${env.NODE_NAME}"
+
+  def mavenHome = tool name: 'maven3.8.5'
+  echo "The job.name is: ${env.JOB_NAME}"
+  echo "The Build number is: ${env.BUILD_NUMBER}"
+  echo "The node name is : ${env.NODE_NAME}"
 
 properties([buildDiscarder(logRotator(artifactDaysToKeepStr: '', artifactNumToKeepStr: '5', daysToKeepStr: '', numToKeepStr: '5')), [$class: 'JobLocalConfiguration', changeReasonComment: ''], pipelineTriggers([pollSCM('* * * * * ')])])
-
 
 //checkout Code State
 stage('checkoutcode'){
@@ -33,15 +34,13 @@ catch(e){
 currentBuild.result = "FAILURE"
 }
 finally{
-sendSlackNotifications(currentBuild.result)
+sendSlackNotificatiopns(currentBuild.result)
 }
 }//node closeing
 
 //Function for slackNotifications
 
-
 def sendSlackNotificatiopns(String buildStatus = 'STARTED') {
-  // build status of null means successful
   buildStatus =  buildStatus ?: 'SUCCESS'
 
   // Default values
