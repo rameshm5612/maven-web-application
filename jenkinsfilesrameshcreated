@@ -19,7 +19,7 @@ git branch: 'development', credentialsId: 'a1582d99-9f78-40ff-bdf9-a616ccd1c6d9'
 stage('Build'){
 sh "${mavenHome}/bin/mvn clean package"
 }
-
+/*
 //Excute SonarQube Repoprt
 stage('ExcuteSonarQubeReport'){
 sh "${mavenHome}/bin/mvn sonar:sonar"
@@ -29,6 +29,7 @@ sh "${mavenHome}/bin/mvn sonar:sonar"
 stage('UploadArtifactsIntoNexus'){
 sh "${mavenHome}/bin/mvn deploy"
 }
+*/
 }//try closeing
 catch(e){
 currentBuild.result = "FAILURE"
